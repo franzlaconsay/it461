@@ -1,42 +1,44 @@
 @host = http://127.0.0.1:6000/v1/cats
 
-GET {{host}}/ HTTP/1.1
+
+### Get all cats
+GET {{host}}/?fields=name&offset=0&limit=2 HTTP/1.1
 
 
-###
+### Create new cats
 POST {{host}}/ HTTP/1.1
 Content-Type: application/json
 
 {
     "id": 0,
-    "name": "Blackie"
+    "name": "Cat9"
 }
 
 
-###
+### Update cats
 PUT {{host}}/ HTTP/1.1
 Content-Type: application/json
 
 {
-    "id": 5,
-    "name": "Blacky"
+    "id": 19,
+    "name": "Blackie"
 }
 
 
-###
+### Delete cats
 DELETE {{host}}/ HTTP/1.1
 Content-Type: application/json
 
-[21,23,12,16,17,5]
+[7,1]
 
 
 
-###
-GET {{host}}/6 HTTP/1.1
+### Get single cat
+GET {{host}}/24?fields=id HTTP/1.1
 
 
-###
-PUT {{host}}/6 HTTP/1.1
+### Update sing cat
+PUT {{host}}/22 HTTP/1.1
 Content-Type: application/json
 
 {
@@ -45,5 +47,5 @@ Content-Type: application/json
 }
 
 
-###
-DELETE {{host}}/6 HTTP/1.1
+### Delete single cat
+DELETE {{host}}/22 HTTP/1.1
