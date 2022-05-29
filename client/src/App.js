@@ -15,6 +15,7 @@ import useAxiosPrivate from './hooks/useAxiosPrivate';
 import DogAdd from './components/DogAdd';
 import DogDetail from './components/DogDetail';
 import DogEdit from './components/DogEdit';
+import DogDelete from './components/DogDelete';
 
 const ROLES = {
   'User': 2001,
@@ -62,6 +63,12 @@ function App() {
     console.log(response.data);
     getDogs(url);
   }
+  const dogDeleteHandler = async (dog) => {
+    console.log('DOG: ', dog);
+    const response = await axiosPrivate.delete('/dogs/'+dog.id);
+    console.log(response.data);
+    getDogs(url);
+  }
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
@@ -81,6 +88,7 @@ function App() {
           <Route path="dogs/create" element={<DogAdd addHandler={dogAddHandler} />} />
           <Route path="dogs/view/:id" element={<DogDetail />} />
           <Route path="dogs/edit/:id" element={<DogEdit updateHandler={dogUpdateHandler} />} />
+          <Route path="dogs/delete/:id" element={<DogDelete deleteHandler={dogDeleteHandler} />} />
         </Route>
 
 
