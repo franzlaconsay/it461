@@ -16,6 +16,7 @@ import DogAdd from './components/DogAdd';
 import DogDetail from './components/DogDetail';
 import DogEdit from './components/DogEdit';
 import DogDelete from './components/DogDelete';
+import Cats from './components/Cats';
 
 const ROLES = {
   'User': 2001,
@@ -25,32 +26,52 @@ const ROLES = {
 
 function App() {
   const [dogs, setDogs] = useState([]);
+  const [cats, setCats] = useState([]);
   const [url, setUrl] = useState('/dogs/?limit=3&offset=0');
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
   const location = useLocation();
 
   const getDogs = async (url, options = null) => {
-      setUrl(url);
-      try {
-          const response = await axiosPrivate.get(url, options);
-          console.log(response.data);
-          setDogs(response.data);
-      } catch (err) {
-          console.error(err);
-          navigate('/login', { state: { from: location }, replace: true });
-      }
+    setUrl(url);
+    try {
+        const response = await axiosPrivate.get(url, options);
+        console.log(response.data);
+        setDogs(response.data);
+    } catch (err) {
+        console.error(err);
+        navigate('/login', { state: { from: location }, replace: true });
+    }
+  }
+  const getCats = async (url, options = null) => {
+    setUrl(url);
+    try {
+        const response = await axiosPrivate.get(url, options);
+        console.log(response.data);
+        setCats(response.data);
+    } catch (err) {
+        console.error(err);
+        navigate('/login', { state: { from: location }, replace: true });
+    }
   }
   useEffect(() => {
-      const controller = new AbortController();
-      getDogs(url, {
-          signal: controller.signal
+    const controller = new AbortController();
+    if(location.pathname === '/dogs') {
+      let dog_url = '/dogs/?limit=3&offset=0'
+      getDogs(dog_url, {
+        signal: controller.signal
       });
-      return () => {
-          controller.abort();
-      }
-  }, []);
-
+    }
+    if(location.pathname === '/cats') {
+      let cat_url = '/cats/?limit=3&offset=0'
+      getCats(cat_url, {
+        signal: controller.signal
+      });
+    }
+    return () => {
+        controller.abort();
+    }
+}, [location]);
   const dogAddHandler = async ({name}) => {
     console.log('DOG: ', name);
     const response = await axiosPrivate.post('/dogs/', JSON.stringify({id: 0, name}));
@@ -91,6 +112,9 @@ function App() {
           <Route path="dogs/delete/:id" element={<DogDelete deleteHandler={dogDeleteHandler} />} />
         </Route>
 
+        <Route element={<RequireAuth allowedRoles={[ROLES.Editor]} />}>
+          <Route path="cats" element={<Cats cats={cats} getCats={getCats} />} />
+        </Route>
 
         <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
           <Route path="admin" element={<Admin />} />
