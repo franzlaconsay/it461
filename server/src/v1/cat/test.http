@@ -2,7 +2,7 @@
 
 
 ### Get all cats
-GET {{host}}/?fields=name&offset=0&limit=2&token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWQiOjEwMCwiZXhwIjoxNjU0NjA5NTQyfQ.w_Gwsb_Yq9EPDMn1pY73MUKtCRd6hEtXs27nmTkxaa0 HTTP/1.1
+GET {{host}}/?fields=name&offset=0&limit=20&token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWQiOjEwMCwiZXhwIjoxNjU0NjA5NTQyfQ.w_Gwsb_Yq9EPDMn1pY73MUKtCRd6hEtXs27nmTkxaa0 HTTP/1.1
 
 
 ### Create new cats

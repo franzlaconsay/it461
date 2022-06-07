@@ -17,6 +17,10 @@ import DogDetail from './components/DogDetail';
 import DogEdit from './components/DogEdit';
 import DogDelete from './components/DogDelete';
 import Cats from './components/Cats';
+import CatAdd from './components/CatAdd';
+import CatDetail from './components/CatDetail';
+import CatEdit from './components/CatEdit';
+import CatDelete from './components/CatDelete';
 
 const ROLES = {
   'User': 2001,
@@ -90,6 +94,24 @@ function App() {
     console.log(response.data);
     getDogs(url);
   }
+  const catAddHandler = async ({name}) => {
+    console.log('CAT: ', name);
+    const response = await axiosPrivate.post('/cats/', JSON.stringify({id: 0, name}));
+    console.log(response.data);
+    getCats(url);
+  }
+  const catUpdateHandler = async (cat) => {
+    console.log('CAT: ', cat);
+    const response = await axiosPrivate.put('/cats/', JSON.stringify(cat));
+    console.log(response.data);
+    getCats(url);
+  }
+  const catDeleteHandler = async (cat) => {
+    console.log('CAT: ', cat);
+    const response = await axiosPrivate.delete('/cats/'+cat.id);
+    console.log(response.data);
+    getCats(url);
+  }
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
@@ -114,6 +136,10 @@ function App() {
 
         <Route element={<RequireAuth allowedRoles={[ROLES.Editor]} />}>
           <Route path="cats" element={<Cats cats={cats} getCats={getCats} />} />
+          <Route path="cats/create" element={<CatAdd addHandler={catAddHandler} />} />
+          <Route path="cats/view/:id" element={<CatDetail />} />
+          <Route path="cats/edit/:id" element={<CatEdit updateHandler={catUpdateHandler} />} />
+          <Route path="cats/delete/:id" element={<CatDelete deleteHandler={catDeleteHandler} />} />
         </Route>
 
         <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
